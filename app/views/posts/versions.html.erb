@@ -1,0 +1,43 @@
+<div class="panel-body panel-height">
+  <table class="table table-bordered">
+   <thead>
+    <tr>
+      <th scope="col">Created At</th>
+      <th scope="col">Title Versions</th>
+      <th scope="col">Content Versions</th>
+      <th scope="col">Restore Version</th>
+      <th scope="col">Compare Version</th>
+    </tr>
+   </thead>
+   <tbody>
+    <% @versions.reverse.each do |version| %>
+      <% if version.changeset[:title].present? %>
+        <% title = Post.find_by(id: version.item_id).title %>
+        <% content = Post.find_by(id: version.item_id).content %>
+        <tr class="<%= (version.changeset[:title].last == title && version.changeset[:content].last == content) ? 'red' : 'black' %>">
+      <% end %>
+        <td><%= version.created_at %></td>
+        <% if version.changeset[:title].present?  %>
+          <td><%= version.changeset[:title].last %></td>
+        <% else %>
+          <td><%= Post.find_by(id: version.item_id).title %>
+        <% end %>
+        <td><%= version.changeset[:content].last %></td>
+        <% if version.changeset[:title].present? %>
+          <td><%= link_to "Restore", post_restore_version_path(title: version.changeset[:title].last, content: version.changeset[:content].last, post_id: version.item_id) %>
+        <% else %>
+          <td><%= link_to "Restore", post_restore_version_path(title: Post.find_by(id: version.item_id).title, content: version.changeset[:content].last, post_id: version.item_id) %>
+        <% end %>
+        <td><%= check_box_tag 'compare[]', version.id ,false, class: "name" %> 
+      </tr>
+    <% end %>  
+   </tbody>
+  </table>
+  <div class="form" style="text-align: center"%>
+    <%= button_to "Compare", onclick: "CompareVersions();",class: "btn btn-default btn-primary" , action: "compare_versions" %>
+  </div>
+
+    <br></br>
+</div>
+
+

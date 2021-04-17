@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= tinymce_assets %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body>
+    <span class="success_msgs"> 
+      <% if notice %>
+        <p class="alert alert-success"> <%= notice %> </p> 
+      <% end %> 
+    </span>
+
+    <span class="error_msgs"> 
+      <% if alert %>
+        <p class="alert alert-success"><%= alert %></p> 
+      <% end %> 
+    </span>
+    <header class="navbar navbar-default" role="navigation">
+      <div class="navbar-inner">
+        <div class="container">
+          <div id="logo" class="navbar-brand"><%= link_to "Create Book", root_path %></div>
+          <div id="logo" class="navbar-brand"><%= link_to "All Books Detail", posts_path %> </div>
+        </div>
+      </div>
+    </header>
+    <div id="main_content" class="container">
+      <%= yield %>
+    </div>
+  </div>
+</div>
+<script>
+    setTimeout("$('.error_msgs').fadeOut('slow')", 5000)
+    setTimeout("$('.success_msgs').fadeOut('slow')", 5000)
+</script>
+</body>
+</html>
